@@ -1,0 +1,145 @@
+{
+    // 使用 IntelliSense 以得知可用的屬性。
+    // 暫留以檢視現有屬性的描述。
+    // 如需詳細資訊，請瀏覽: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "train",
+            "type": "python",
+            "request": "launch",
+            "program": "train.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--batch-size",
+                "8",
+                "--img",
+                "1280",
+                "1280",
+                "--data",
+                "coco.yaml",
+                "--cfg",
+                "cfg/yolor_p6.cfg",
+                "--weights",
+                "",
+                "--device",
+                "0",
+                "--name",
+                "yolor_p6",
+                "--hyp",
+                "hyp.scratch.1280.yaml",
+                "--epochs",
+                "300"
+            ]
+        },
+        {
+            "name": "api",
+            "type": "python",
+            "request": "launch",
+            "program": "app.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--cfg",
+                // "cfg/yolor_p6.cfg",
+                "cfg/yolor_w6.cfg",
+                "--weights",
+                // "yolor_p6.pt",
+                "yolor_w6.pt",
+                "--conf",
+                // "0.35",
+                "0.05",
+                "--img-size",
+                "512",
+                "--device",
+                "0",
+            ]
+        },
+        {
+            "name": "Python: flask_api",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "app.py",
+                "FLASK_ENV": "development"
+            },
+            "args": [
+                "run",
+                "--no-debugger",
+                "--host=0.0.0.0"
+            ],
+            "jinja": true
+        },
+        {
+            "name": "找出鏡頭物件",
+            "type": "python",
+            "request": "launch",
+            "program": "rai_detect.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--source",
+                "/coco/48-B0-2D-51-FE-6D",
+                "--cfg",
+                "cfg/yolor_p6.cfg",
+                "--weights",
+                "yolor_p6.pt",
+                "--conf",
+                "0.25",
+                "--img-size",
+                "512",
+                "--device",
+                "0",
+                "--save-txt"
+            ]
+        },
+        {
+            "name": "Inference",
+            "type": "python",
+            "request": "launch",
+            "program": "detect.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--source",
+                "inference/images/horses.jpg",
+                "--cfg",
+                "cfg/yolor_p6.cfg",
+                "--weights",
+                "yolor_p6.pt",
+                "--conf",
+                "0.25",
+                "--img-size",
+                "512",
+                "--device",
+                "0"
+            ]
+        },
+        {
+            "name": "test",
+            "type": "python",
+            "request": "launch",
+            "program": "test.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--data",
+                "data/coco.yaml",
+                "--img",
+                "512",
+                "--batch",
+                "32",
+                "--conf",
+                "0.001",
+                "--iou",
+                "0.65",
+                "--device",
+                "0",
+                "--cfg",
+                "cfg/yolor_p6.cfg",
+                "--weights",
+                "yolor_p6.pt",
+                "--name",
+                "yolor_p6_val"
+            ]
+        }
+    ]
+}

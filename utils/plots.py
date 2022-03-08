@@ -95,12 +95,12 @@ def output_to_target(output, width, height):
     for i, o in enumerate(output):
         if o is not None:
             for pred in o:
-                box = pred[:4]
-                w = (box[2] - box[0]) / width
-                h = (box[3] - box[1]) / height
-                x = box[0] / width + w / 2
-                y = box[1] / height + h / 2
-                conf = pred[4]
+                box = pred[:4].cpu()
+                w = ((box[2] - box[0]) / width).cpu()
+                h = ((box[3] - box[1]) / height).cpu()
+                x = (box[0] / width + w / 2).cpu()
+                y = (box[1] / height + h / 2).cpu()
+                conf = pred[4].cpu()
                 cls = int(pred[5])
 
                 targets.append([i, cls, x, y, w, h, conf])

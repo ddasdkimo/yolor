@@ -37,6 +37,10 @@ def detect(save_img=False):
     if os.path.exists(out):
         shutil.rmtree(out)  # delete output folder
     os.makedirs(out)  # make new output folder
+    os.makedirs(out+"/ann")
+    os.makedirs(out+"/img")
+    os.makedirs(out+"/pimg")
+    
     half = device.type != 'cpu'  # half precision only supported on CUDA
 
     # Load model
@@ -62,7 +66,7 @@ def detect(save_img=False):
         cudnn.benchmark = True  # set True to speed up constant image size inference
         dataset = LoadStreams(source, img_size=imgsz)
     else:
-        save_img = True
+        save_img = False
         dataset = LoadImages(source, img_size=imgsz, auto_size=64)
 
     # Get names and colors
@@ -100,7 +104,9 @@ def detect(save_img=False):
                 p, s, im0 = path, '', im0s
 
             save_path = str(Path(out) / Path(p).name)
-            txt_path = str(Path(out) / Path(p).stem) + ('_%g' % dataset.frame if dataset.mode == 'video' else '')
+            save_img_path = str(Path(out)) + "/img/"+ Path(p).name
+            p_img_path = str(Path(out))  + "/pimg/"+ Path(p).stem + ('_%g' % dataset.frame if dataset.mode == 'video' else '')
+            txt_path = str(Path(out))  + "/ann/"+ Path(p).stem + ('_%g' % dataset.frame if dataset.mode == 'video' else '')
             s += '%gx%g ' % img.shape[2:]  # print string
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
             if det is not None and len(det):
@@ -113,15 +119,29 @@ def detect(save_img=False):
                     s += '%g %ss, ' % (n, names[int(c)])  # add to string
 
                 # Write results
+                havep = False
+                plist = list()
                 for *xyxy, conf, cls in det:
+                    if cls != 0:
+                        continue
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
-                        with open(txt_path + '.txt', 'a') as f:
-                            f.write(('%g ' * 5 + '\n') % (cls, *xywh))  # label format
-
+                        if xywh[2] > 0.1: # 佔畫面橫向比例一定大小才處理
+                            havep = True
+                            plist.append(im0[int(xyxy[1]):int(xyxy[3]),int(xyxy[0]):int(xyxy[2])])
+                            with open(txt_path + '.txt', 'a') as f:
+                                f.write(('%g ' * 5 + '\n') % (cls, *xywh))  # label format
+                    
                     if save_img or view_img:  # Add bbox to image
                         label = '%s %.2f' % (names[int(cls)], conf)
                         plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
+
+                if havep:
+                    cv2.imwrite(save_img_path, im0)
+                    count = 0
+                    for img in plist:
+                        cv2.imwrite(p_img_path+"_"+str(count)+".jpg", img)
+                        count += 1
 
             # Print time (inference + NMS)
             print('%sDone. (%.3fs)' % (s, t2 - t1))
