@@ -76,7 +76,8 @@ def aidetect():
     img.save(filename)
     mutex.acquire()  # 鎖定
     try:
-        data = detect(filename)
+        with torch.no_grad():
+            data = detect(filename)
     except:
         print("aidetect error")
     mutex.release()

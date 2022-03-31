@@ -443,6 +443,9 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
         pbar = enumerate(self.label_files)
         if rank in [-1, 0]:
             pbar = tqdm(pbar)
+        # for i, file in pbar:
+        #     if (self.labels[i] >= 0).all() == False:
+        #         print("error:"+file)
         for i, file in pbar:
             l = self.labels[i]  # label
             if l is not None and l.shape[0]:

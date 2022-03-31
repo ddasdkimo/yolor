@@ -5,6 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "export",
+            "type": "python",
+            "request": "launch",
+            "program": "export.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--batch-size",
+                "8",
+                "--img-size",
+                "1280",
+                "--weights",
+                "/home/ubuntu/yolor/runs/train/exp3/weights/last.pt", // coco
+            ]
+            // screen /usr/bin/python3 train.py --batch-size 8 --img 1280 1280 --data coco.yaml --cfg cfg/yolor_p6_person.cfg --weights "runs/train/exp/weights/last.pt" --device 0 --name yolor_p6_v1 --hyp hyp.scratch.1280.yaml --epochs 300 
+        }, {
             "name": "train",
             "type": "python",
             "request": "launch",
@@ -20,18 +36,21 @@
                 "--data",
                 "coco.yaml",
                 "--cfg",
-                "cfg/yolor_p6.cfg",
+                "cfg/yolor_p6_person.cfg",
                 "--weights",
-                "",
+                // "yolor_w6.pt",
+                "runs/train/exp2/weights/last.pt", // coco
+                
                 "--device",
                 "0",
                 "--name",
-                "yolor_p6",
+                "yolor_p6_person",
                 "--hyp",
                 "hyp.scratch.1280.yaml",
                 "--epochs",
                 "300"
             ]
+            // screen /usr/bin/python3 train.py --batch-size 8 --img 1280 1280 --data coco.yaml --cfg cfg/yolor_p6_person.cfg --weights "runs/train/exp/weights/last.pt" --device 0 --name yolor_p6_v1 --hyp hyp.scratch.1280.yaml --epochs 300 
         },
         {
             "name": "api",
@@ -42,18 +61,20 @@
             "args": [
                 "--cfg",
                 // "cfg/yolor_p6.cfg",
-                "cfg/yolor_w6.cfg",
+                "cfg/yolor_p6_person.cfg",
                 "--weights",
                 // "yolor_p6.pt",
-                "yolor_w6.pt",
+                // "/home/ubuntu/yolor/runs/train/exp/weights/best.pt", // coco單純人
+                "runs/train/exp3/weights/best.pt",  // 遷移hk課堂
                 "--conf",
-                // "0.35",
-                "0.05",
+                "0.35",
+                // "0.05",
                 "--img-size",
-                "512",
+                "1280",
                 "--device",
                 "0",
             ]
+            // /usr/bin/python3 app.py --cfg cfg/yolor_p6_person.cfg --weights runs/train/exp3/weights/best.pt --conf 0.35 --img-size 1280 --device 0
         },
         {
             "name": "Python: flask_api",

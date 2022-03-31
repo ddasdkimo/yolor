@@ -25,3 +25,5 @@ COPY ./ .
 RUN pip install -qr requirements.txt
 RUN cd mish-cuda && python setup.py build install
 RUN cd pytorch_wavelets && pip install .
+
+# /usr/bin/python3 train.py --batch-size 8 --img 1280 1280 --data coco.yaml --cfg cfg/yolor_p6_person.cfg --weights "" --device 0 --name yolor_p6_v1 --hyp hyp.scratch.1280.yaml --epochs 300 
