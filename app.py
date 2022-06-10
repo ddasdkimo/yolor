@@ -124,8 +124,8 @@ def detect(filename,saveoutput=True):
                         s += '%g %ss, ' % (n, names[int(c)])  # add to string
 
                 for *xyxy, conf, cls in det:
-                    if names[int(cls)] != "person":
-                        continue
+                    # if names[int(cls)] != "person":
+                    #     continue
                     xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) /
                             gn).view(-1).tolist()  # normalized xywh
                     print(names[int(cls)]+":"+str(xywh))
