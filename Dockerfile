@@ -69,7 +69,7 @@ RUN pip install --pre torch torchvision torchaudio -f https://download.pytorch.o
 # -v /dev/shm:/dev/shm     \
 # -v /home/ubuntu/yolor/:/yolor     \
 # -v /home/ubuntu/traindata:/home/ubuntu/traindata     \
-# --memory 8000m     \
+# --shm-size=120G \
 # --log-opt max-size=10m     \
 # --log-opt max-file=10     \
 # --name train_yolor \

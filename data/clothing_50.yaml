@@ -1,0 +1,14 @@
+# train and val datasets (image directory or *.txt file with image paths)
+# train: ../coco/train2017.txt  # 118k images
+# val: ../coco/val2017.txt  # 5k images
+# test: ../coco/test-dev2017.txt  # 20k images for submission to https://competitions.codalab.org/competitions/20794
+# train: /media/ubuntu/T240GSSD/cocoperson/train.txt
+# val: /media/ubuntu/T240GSSD/cocoperson/val.txt
+# 遷移學習
+train: /home/ubuntu/traindata/yolo_clothing_50/train.txt
+val: /home/ubuntu/traindata/yolo_clothing_50/val.txt
+# number of classes
+nc: 50
+
+# class names
+names: ["Anorak","Blazer","Blouse","Bomber","Button-Down","Cardigan","Flannel","Halter","Henley","Hoodie","Jacket","Jersey","Parka","Peacoat","Poncho","Sweater","Tank","Tee","Top","Turtleneck","Capris","Chinos","Culottes","Cutoffs","Gauchos","Jeans","Jeggings","Jodhpurs","Joggers","Leggings","Sarong","Shorts","Skirt","Sweatpants","Sweatshorts","Trunks","Caftan","Cape","Coat","Coverup","Dress","Jumpsuit","Kaftan","Kimono","Nightdress","Onesie","Robe","Romper","Shirtdress","Sundress"]
